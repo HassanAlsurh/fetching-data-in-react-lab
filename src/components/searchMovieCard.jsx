@@ -1,4 +1,4 @@
-const MovieCard = ({ movie }) => {
+const SearchMovieCard = ({ movie }) => {
     return (
         <article>
             {movie.poster_path ? (
@@ -27,4 +27,4 @@ const MovieCard = ({ movie }) => {
     )
 }
 
-export default MovieCard
+export default SearchMovieCard

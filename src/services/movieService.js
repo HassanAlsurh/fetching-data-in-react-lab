@@ -1,4 +1,3 @@
-// import.meta.env.VITE_TMDB_TOKEN
 const BASE_URL = 'https://api.themoviedb.org/3'
 const index = async () => {
     const res = await fetch(`${BASE_URL}/movie/popular`, {
@@ -14,9 +13,10 @@ const index = async () => {
         throw new Error(`${res.status}: ${data.status_message}`)
     }
 
+    console.log('Index Return: ', data.results);
+
     return data.results
 }
-console.log(index());
 
 const search = async (query) => {
     const res = await fetch(`${BASE_URL}/search/movie?query=${encodeURIComponent(query)}`, {
@@ -30,13 +30,10 @@ const search = async (query) => {
     if (!res.ok) {
         throw new Error(`${res.status}: ${data.status_message}`)
     }
+    console.log('Search retirn: ', data.results);
 
     return data.results
-    // Make a request to:
-    // `${BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
 }
-
-
 
 export {
     index,

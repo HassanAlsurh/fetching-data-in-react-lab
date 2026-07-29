@@ -1,16 +1,21 @@
+import './App.css'
 import { useEffect, useState } from 'react'
 import * as movieService from './services/movieService'
 import MovieList from './components/MovieList'
-
+import Form from './components/Form'
+import SearchMovieList from './components/SearchMovieList'
 
 const App = () => {
   const [error, setError] = useState('')
   const [movies, setMovies] = useState([])
+  const [searchMovies, setSearchMovies] = useState([])
+  const [value, setValue] = useState('')
+
+
   useEffect(() => {
     const fetchAllMovies = async () => {
       try {
         const moviesData = await movieService.index()
-        console.log(moviesData)
         setMovies(moviesData)
       } catch (error) {
         console.log(error)
@@ -21,21 +26,47 @@ const App = () => {
     fetchAllMovies()
   }, [])
 
+  useEffect(() => {
+    const fetchSearch = async () => {
+      try {
+        const moviesData = await movieService.search(value)
+        setSearchMovies(moviesData)
+      } catch (error) {
+        console.log(error)
+        setError(error.message)
+      }
+    }
+
+    if (value) {
+      fetchSearch()
+    }
+
+  }, [value])
+
   return (
     <>
       <main>
-        <h1>Popular Movies</h1>
+        <div className="search">
+          <Form value={value} setValue={setValue} />
 
-        {error && <p>{error}</p>}
+          {value ? <h1>Search: {value}</h1> : ''}
+          {value ? <SearchMovieList searchMovies={searchMovies} /> : ''}
 
-        {movies.length === 0 && !error && (
-          <p>Loading movies...</p>
-        )}
+        </div>
+        <div className="popular">
 
-        {movies.length > 0 && (
-          <MovieList movies={movies} />
-        )}
+          <h1>Popular Movies</h1>
 
+          {error && <p>{error}</p>}
+
+          {movies.length === 0 && !error && (
+            <p>Loading movies...</p>
+          )}
+
+          {movies.length > 0 && (
+            <MovieList movies={movies} />
+          )}
+        </div>
       </main>
       <footer>
         <hr />
