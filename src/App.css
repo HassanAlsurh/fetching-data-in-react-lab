@@ -1,37 +1,27 @@
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
 .movie-list-row {
   display: flex;
   overflow-x: auto;
   gap: 20px;
-  padding: 20px 0;
-
+  padding: 20px;
   scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 .movie-list-row article {
   flex: 0 0 300px;
-
   display: flex;
   flex-direction: column;
+  scroll-snap-align: start;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  padding-bottom: 15px;
 }
 
 .movie-list-row article img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
   object-fit: cover;
 }
 
@@ -44,12 +34,11 @@
   border-radius: 4px;
 }
 
-
 .movie-search-list-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px;
-  padding: 40px 0;
+  padding: 40px 20px;
   margin-top: 20px;
   border-top: 2px solid #333;
 }
@@ -65,11 +54,6 @@
   cursor: pointer;
 }
 
-.movie-search-list-row article:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-}
-
 .movie-search-list-row article img {
   width: 100%;
   aspect-ratio: 2 / 3;
@@ -78,15 +62,31 @@
 }
 
 .movie-search-list-row article h2,
-.movie-search-list-row article p {
-  padding: 10px 15px;
+.movie-search-list-row article p,
+.movie-list-row article h2,
+.movie-list-row article p {
+  padding: 5px 15px;
   margin: 0;
 }
 
-.movie-search-list-row article h2 {
+.movie-search-list-row article h2,
+.movie-list-row article h2 {
   font-size: 1.2rem;
   margin-top: 10px;
+  margin-bottom: 5px;
 }
+
+article p:last-of-type {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #a3a3a3;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
 
 form {
   display: flex;
@@ -99,7 +99,7 @@ form {
 }
 
 form input {
-  flex: 1; 
+  flex: 1;
   padding: 16px 24px;
   font-size: 1.2rem;
   color: #ffffff;
@@ -111,7 +111,7 @@ form input {
 }
 
 form input:focus {
-  border-color: #e50914; 
+  border-color: #e50914;
   box-shadow: 0 0 15px rgba(229, 9, 20, 0.3);
 }
 
@@ -128,11 +128,61 @@ form button {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-form button:hover {
-  background-color: #ff0a16;
-  transform: translateY(-2px); 
+form button:active {
+  transform: translateY(1px) scale(0.98);
 }
 
-form button:active {
-  transform: translateY(1px) scale(0.98); 
+@media (hover: hover) and (pointer: fine) {
+  .movie-search-list-row article:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  form button:hover {
+    background-color: #ff0a16;
+    transform: translateY(-2px);
+  }
+}
+
+
+@media (max-width: 600px) {
+  .movie-list-row article {
+    flex: 0 0 200px;
+  }
+
+  .movie-search-list-row {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 20px 0;
+  }
+
+  .movie-search-list-row article h2,
+  .movie-list-row article h2 {
+    font-size: 1rem;
+  }
+
+  form {
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+  form input {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+
+  form button {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .movie-search-list-row {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 20px;
+  }
+
+  footer {
+    padding: 0 20px 20px;
+  }
 }
